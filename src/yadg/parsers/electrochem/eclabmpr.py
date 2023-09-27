@@ -553,7 +553,7 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     return settings, params
 
 
-def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
+def _parse_columns(column_ids: List[int], technique: Optional[str] = None) -> Tuple[List[str], List[str], List[Optional[str]], Dict[str, int]]:
     """Puts together column info from a list of data column IDs.
 
     Note
@@ -598,11 +598,16 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
             names.append(name)
             dtypes.append("<f4")
             units.append("")
+
+    if technique == 'GCPL':
+        names.append("<I>")
+        dtypes.append("<f8")
+        units.append("mA")
     return names, dtypes, units, flags
 
 
 def _process_data(
-    data: bytes, version: int, Eranges: list[float], Iranges: list[float]
+    data: bytes, version: int, Eranges: list[float], Iranges: list[float], technique: Optional[str] = None
 ) -> list[dict]:
     """Processes the contents of data modules.
 
@@ -627,7 +632,7 @@ def _process_data(
     n_columns = _read_value(data, 0x0004, "|u1")
     column_ids = _read_values(data, 0x0005, "<u2", n_columns)
     # Length of each datapoint depends on number and IDs of columns.
-    names, dtypes, units, flags = _parse_columns(column_ids)
+    names, dtypes, units, flags = _parse_columns(column_ids, technique)
     print('column_ids is: ', column_ids)
     print('names is: ', names)
     print('dtypes is: ', dtypes)
@@ -777,7 +782,7 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                 Eranges.append(E_range_max - E_range_min)
                 Iranges.append(el.get("I_range", "Auto"))
         elif name == "VMP data":
-            data = _process_data(module_data, header["version"], Eranges, Iranges)
+            data = _process_data(module_data, header["version"], Eranges, Iranges, settings.get('technique'))
         elif name == "VMP LOG":
             log = _process_log(module_data)
         elif name == "VMP loop":
