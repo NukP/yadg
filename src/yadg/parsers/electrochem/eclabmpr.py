@@ -196,7 +196,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 import logging
 from collections import defaultdict
-from typing import Any
+from typing import Optional, List, Tuple, Dict, Any
 from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
