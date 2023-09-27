@@ -628,6 +628,11 @@ def _process_data(
     column_ids = _read_values(data, 0x0005, "<u2", n_columns)
     # Length of each datapoint depends on number and IDs of columns.
     names, dtypes, units, flags = _parse_columns(column_ids)
+    print('column_ids is: ', column_ids)
+    print('names is: ', names)
+    print('dtypes is: ', dtypes)
+    print('units is: ', units)
+    print('flag is: ', flags)
     data_dtype = np.dtype(list(zip(names, dtypes)))
     # Depending on module version, datapoints start at 0x0195 or 0x0196.
     if version == 2:
@@ -833,6 +838,7 @@ def process(
         assert mpr_file.read(len(file_magic)) == file_magic, "invalid file magic"
         mpr = mpr_file.read()
     settings, params, data, log, loop = _process_modules(mpr)
+    print('settings[technique] in process is', settings['technique'])
     assert settings is not None, "no settings module"
     assert data is not None, "no data module"
     # Arrange all the data into the correct format.
