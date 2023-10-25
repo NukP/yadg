@@ -34,7 +34,7 @@ The metadata will contain the information from the header of the file.
 
 from zoneinfo import ZoneInfo
 from pathlib import Path
-from dgbowl_schemas.yadg import FileType
+from dgbowl_schemas.yadg.dataschema_5_0.filetype import FileType
 import logging
 import pandas as pd
 from .extractor import process
