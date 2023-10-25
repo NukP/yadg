@@ -196,7 +196,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 from zoneinfo import ZoneInfo
 from pathlib import Path
-from dgbowl_schemas.yadg import FileType
+from dgbowl_schemas.yadg.dataschema_5_0.filetype import FileType
 import logging
 import pandas as pd
 from .extractor import process
