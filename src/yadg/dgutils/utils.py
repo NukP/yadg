@@ -169,7 +169,7 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
                 newp = os.path.abspath(os.path.join(folder, oldf))
                 newf.append(newp)
         step[inpk][filk] = newf
-        if "calfile" in step["parameters"]:
+        if "parameters" in step and "calfile" in step["parameters"]:
             oldf = step["parameters"]["calfile"]
             if os.path.isabs(oldf):
                 logger.warning(
