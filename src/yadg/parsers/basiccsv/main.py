@@ -116,6 +116,8 @@ def process(
         when only time is specified in columns.
 
     """
+    if encoding is None:
+        encoding = 'utf-8'
 
     if hasattr(parameters, "strip"):
         strip = parameters.strip
