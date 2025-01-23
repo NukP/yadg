@@ -70,6 +70,6 @@ def read_value(
     value = np.frombuffer(data, offset=offset, dtype=dtype, count=1)
     item = value.item()
     if value.dtype.names:
-        item = [i.decode(encoding, error='ignore') if isinstance(i, bytes) else i for i in item] # ignore errors from reading items from the binary files. This is a temporary fix.
+        item = [i.decode(encoding, errors='ignore') if isinstance(i, bytes) else i for i in item] # ignore errors from reading items from the binary files. This is a temporary fix.
         return dict(zip(value.dtype.names, item))
     return item.decode(encoding) if isinstance(item, bytes) else item
